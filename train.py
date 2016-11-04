@@ -5,12 +5,9 @@ from model import *
 import sys
 
 lfw_Path = './lfw/LFW-gender-folds.txt'
-test_Path = './face_list.txt'
+test_Path = './face/face_list.txt'
 
 def train():
-	"""
-	Train the model
-	"""
 	# Learning params
 	learning_rate = 0.0005
 	training_iters = 100
@@ -22,6 +19,8 @@ def train():
 	# Network params
 	image_size = (224, 224)
 	n_classes = 2
+
+	#sess = tf.InteractiveSession()
 
 	x = tf.placeholder(tf.float32, [batch_size, 224, 224, 3])
 	y = tf.placeholder(tf.float32, [batch_size, n_classes])
@@ -41,6 +40,7 @@ def train():
 
 	network = vggnet(x)
 	pred = network.outputs
+	#print(y.get_shape().ndims, y_.get_shape().ndims)
 	
 	# Loss and optimizer
 	loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(pred, y))
@@ -59,7 +59,6 @@ def train():
 		f.write('Init \n')
 		sess.run(tf.initialize_all_variables())
 		
-		#load train model
 		load_npy('./vggface_100.npy', sess, '')
 		
 		print 'Start training'
@@ -103,9 +102,6 @@ def train():
 		f.write('Finish! \n')
 
 def test(malef, femalef):
-	"""
-	Test the model
-	"""
 	# testing params
 	batch_size = 1
 	display_step = 1
@@ -137,7 +133,6 @@ def test(malef, femalef):
 		print 'Init variable'
 		sess.run(tf.initialize_all_variables())
 		
-		#load the test model
 		load_npy('./vgg_face_50.npy', sess, '')
 		
 		print 'Start training'
