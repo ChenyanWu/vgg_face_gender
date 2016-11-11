@@ -4,16 +4,16 @@ from dataset import *
 from model import *
 import sys
 
-lfw_Path = './lfw/LFW-gender-folds.txt'
+wiki_Path = './wiki_crop/lfw_wiki_imdb_temp.txt'
 test_Path = './face/face_list.txt'
 
 def train():
 	# Learning params
 	learning_rate = 0.0005
-	training_iters = 100
+	training_iters = 1000
 	batch_size = 50
-	display_step = 1
-	test_step = 1
+	display_step = 10
+	test_step = 100
 	f = open('./test_result.txt','w')
 
 	# Network params
@@ -50,7 +50,7 @@ def train():
 	accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 	
 	# Load dataset
-	data = Dataset(lfw_Path)
+	data = Dataset(wiki_Path)
 	
 	#config = tf.ConfigProto() 
 	#config.gpu_options.allow_growth = True
@@ -153,7 +153,7 @@ def test(malef, femalef):
 		print "Finish!"
 
 if __name__ == '__main__':
-	#train()
-	male_file = open('male.txt', 'w')
-	female_file = open('female.txt', 'w')
-	test(male_file, female_file)
+	train()
+	#male_file = open('male.txt', 'w')
+	#female_file = open('female.txt', 'w')
+	#test(male_file, female_file)
